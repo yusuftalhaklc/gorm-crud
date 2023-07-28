@@ -76,3 +76,26 @@ func SignIn(c *fiber.Ctx) error {
 	response := LoginResponse{Status: "Success", Message: "Successfully login", Token: token, TokenType: "Bearer"}
 	return c.Status(http.StatusOK).JSON(response)
 }
+func GetAllUser(c *fiber.Ctx) error {
+	type UserGetAllResponse struct {
+		Username string `json:"username"`
+		Verified bool   `json:"verified"`
+	}
+
+	var users []models.User
+	if err := database.DB.Find(&users).Error; err != nil {
+		response := Response{Status: "Error", Message: "Database error"}
+		return c.Status(http.StatusInternalServerError).JSON(response)
+	}
+
+	var responseData []UserGetAllResponse
+	for _, user := range users {
+		response := UserGetAllResponse{
+			Username: user.Username,
+			Verified: user.Verified,
+		}
+		responseData = append(responseData, response)
+	}
+
+	return c.Status(http.StatusOK).JSON(fiber.Map{"status": "success", "data": responseData})
+}

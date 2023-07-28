@@ -6,7 +6,19 @@ import (
 
 type Post struct {
 	gorm.Model
-	Content  string `json:"content"`
+	UserID       int    `json:"user_id"`
+	Content      string `json:"content"`
+	CommentCount int    `json:"comment_count"`
+	LikeCount    int    `json:"like_count"`
+}
+type PostLike struct {
+	gorm.Model
+	PostID   int    `json:"post_id"`
 	Username string `json:"username"`
-	Tags     string `json:"tags"`
+}
+type Comment struct {
+	gorm.Model
+	PostId   int    `json:"post_id"`
+	Username string `json:"username"`
+	Comment  string `json:"Comment"`
 }

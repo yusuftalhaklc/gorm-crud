@@ -21,7 +21,7 @@ func AuthMiddleware() fiber.Handler {
 		claims, err := utils.VerifyToken(tokenString)
 		if err != nil {
 			unauthorizedStatus := http.StatusUnauthorized
-			return c.Status(unauthorizedStatus).JSON(fiber.Map{"Message": "unauthorized", "Status": unauthorizedStatus})
+			return c.Status(unauthorizedStatus).JSON(fiber.Map{"message": "unauthorized", "status": unauthorizedStatus})
 		}
 		c.Locals("claims", claims)
 

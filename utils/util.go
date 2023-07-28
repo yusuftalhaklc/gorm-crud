@@ -17,7 +17,7 @@ func CreateToken(user *models.User) (string, error) {
 
 	claims := token.Claims.(jwt.MapClaims)
 	claims["username"] = user.Username
-	claims["exp"] = time.Now().Add(time.Hour * 24).Unix()
+	claims["exp"] = time.Now().Add(time.Hour * 24 * 365).Unix()
 
 	tokenString, err := token.SignedString(secretKey)
 	if err != nil {

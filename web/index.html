@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Kullanıcı Listesi</title>
+    <style>
+        /* Stil ayarları */
+        .user-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .user-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        .user-item img {
+            width: 20px;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+<h1>Kullanıcı Listesi</h1>
+<ul class="user-list" id="userList"></ul>
+
+<script>
+    // JavaScript ile verileri alıp listeleyeceğiz
+    // Burada fetch API kullanarak verileri alabiliriz
+    fetch('http://localhost:8080/api/users', {
+        method: 'GET',
+        headers: {
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTAzNzMyMDUsInVzZXJuYW1lIjoieXVzdWZ0YWxoYWtsYyJ9.CtJWkwnCF8kDIrr3-Qbq9xgYlcIM9fRzDr7aUHz84r0'
+        }
+    })
+        .then(response => response.json())
+        .then(data => {
+            const userList = document.getElementById('userList');
+            data.data.forEach(user => {
+                const listItem = document.createElement('li');
+                listItem.classList.add('user-item');
+                listItem.innerHTML = `
+                    <span>${user.username}</span>
+                    <img src="${user.verified ? 'verified.png' : ''}">
+                `;
+                userList.appendChild(listItem);
+            });
+        })
+        .catch(error => console.error('Hata:', error));
+</script>
+</body>
+</html>
